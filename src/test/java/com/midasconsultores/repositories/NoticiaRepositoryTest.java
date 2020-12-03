@@ -2,6 +2,8 @@ package com.midasconsultores.repositories;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -34,12 +36,12 @@ class NoticiaRepositoryTest {
 		FuenteRepository.save(fuente); 
 		
 
-		Date date = Utilities.stringToDate( "20/11/2020", Utilities.FORMAT_DATE );
+		LocalDateTime date = Utilities.stringToLocalDateTime( "20/11/2020", Utilities.FORMAT_DATE );
 		
 		Noticia noti1 = new Noticia();
 		noti1.setId("una");
 		noti1.setTitulo("titulo una");
-		noti1.setFechaPublicacion(Utilities.stringToDate( "20/11/2020", Utilities.FORMAT_DATE ));
+		noti1.setFechaPublicacion(Utilities.stringToLocalDateTime( "20/11/2020", Utilities.FORMAT_DATE ));
 		noti1.setCategoria("NACIONAL");
 		noti1.setUrlNoticia("");
 		noti1.setFuente( fuente );

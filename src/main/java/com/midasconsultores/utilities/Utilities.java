@@ -1,18 +1,69 @@
 package com.midasconsultores.utilities;
 
 import java.text.DateFormatSymbols;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.GregorianCalendar;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Utilities {
 	
 	 public static final DateFormatSymbols formatSymbols = new DateFormatSymbols(new java.util.Locale("es", "ES"));
-	 public static final String FORMAT_DATE = "dd/MM/yyyy";	 
-	 public static final String FORMATO_API = "yyyy-MM-dd";	 
+	 public static final String FORMAT_DATE = "dd/MM/yyyy";		
 	 public static final String FORMATO_ISO = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
+	 
+	 
+	 public static LocalDateTime stringToLocalDateTime( String fechaStr, String pattern ) {
+		return LocalDateTime.parse( fechaStr,  DateTimeFormatter.ofPattern(pattern) );
+	 }
+	 
+	 public static LocalDate stringToLocalDate( String fechaStr, String pattern ) {
+			return LocalDate.parse( fechaStr,  DateTimeFormatter.ofPattern(pattern) );
+	 }
+		 
+	 
+	 public static String localDateToString( LocalDate fecha, String pattern  ) {		 
+		 String dateString = "";
+		 if( fecha != null && pattern != null ) {
+			 DateTimeFormatter formatter = DateTimeFormatter.ofPattern( pattern );
+			 dateString = fecha.format(formatter);
+		 }
+		 return dateString;		 
+	 }
+	 
+	 public static LocalDateTime fechaAddDia( LocalDateTime fecha, int dias ){		 	
+			
+			if( fecha != null ) {
+				return fecha.plusDays( dias );
+			}			
+			return null;
+	 }
+		 
+	 
+	 public static LocalDate fechaAddDia( LocalDate fecha, int dias ){		 	
+			
+		if( fecha != null ) {
+			return fecha.plusDays( dias );
+		}			
+		return null;
+	 }
+	 
+	 public static LocalDate fechaMasUnDia( LocalDate fecha ){	
+			
+		if( fecha != null ) {
+			return fecha.plusDays( 1 );
+		}			
+		return null;
+	}
+	 
+	 public static LocalDateTime fechaMasUnDia( LocalDateTime fecha ){	
+			
+			if( fecha != null ) {
+				return fecha.plusDays( 1 );
+			}			
+			return null;
+	}
 	
-	 public static Date stringToDate( String fechaStr, String pattern ){
+	 /*public static Date stringToDate( String fechaStr, String pattern ){
 	        SimpleDateFormat template=null;
 	        Date date = null;
 	        if (pattern != null){
@@ -72,6 +123,6 @@ public class Utilities {
             cadena = cadena.substring(0, longitud );
         }        
         return cadena;
-    }
+    }*/
 
 }

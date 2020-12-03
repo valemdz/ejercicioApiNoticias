@@ -1,8 +1,7 @@
 package com.midasconsultores.models;
 
 import java.io.Serializable;
-import java.util.Date;
-
+import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -34,22 +33,21 @@ public class Noticia implements Serializable {
 	private String urlNoticia;
 
 	private String Urlimagen;
-
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "fecha_publicacion", nullable = false )
-	private Date fechaPublicacion;
+	
+	@Column(name = "fecha_publicacion", nullable = false, columnDefinition ="TIMESTAMP" )
+	private LocalDateTime fechaPublicacion;
 
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "fuente_id", nullable = false)
 	Fuente fuente;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "fecha_creacion")
-	private Date fechaCreacion;
+	
+	@Column(name = "fecha_creacion", nullable = false, columnDefinition ="TIMESTAMP")
+	private LocalDateTime fechaCreacion;
 
 	public Noticia() {
 		this.id = "";
-		this.fechaCreacion = new Date();
+		this.fechaCreacion = LocalDateTime.now();
 	}
 
 	public String getId() {
@@ -83,13 +81,21 @@ public class Noticia implements Serializable {
 	public void setUrlNoticia(String urlNoticia) {
 		this.urlNoticia = urlNoticia;
 	}
-
-	public Date getFechaPublicacion() {
+	
+	public LocalDateTime getFechaPublicacion() {
 		return fechaPublicacion;
 	}
 
-	public void setFechaPublicacion(Date fechaPublicacion) {
+	public void setFechaPublicacion(LocalDateTime fechaPublicacion) {
 		this.fechaPublicacion = fechaPublicacion;
+	}
+
+	public LocalDateTime getFechaCreacion() {
+		return fechaCreacion;
+	}
+
+	public void setFechaCreacion(LocalDateTime fechaCreacion) {
+		this.fechaCreacion = fechaCreacion;
 	}
 
 	public Fuente getFuente() {
@@ -108,13 +114,7 @@ public class Noticia implements Serializable {
 		Urlimagen = urlimagen;
 	}
 
-	public Date getFechaCreacion() {
-		return fechaCreacion;
-	}
-
-	public void setFechaCreacion(Date fechaCreacion) {
-		this.fechaCreacion = fechaCreacion;
-	}
+	
 
 	@Override
 	public String toString() {

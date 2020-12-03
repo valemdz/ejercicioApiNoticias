@@ -1,14 +1,13 @@
 package com.midasconsultores.controllers;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,13 +20,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.midasconsultores.cliente.IClienteApi;
 import com.midasconsultores.dto.Paginacion;
 import com.midasconsultores.dto.Respuesta;
-import com.midasconsultores.exceptions.ValidacionProcesoException;
 import com.midasconsultores.models.Fuente;
 import com.midasconsultores.models.Noticia;
 import com.midasconsultores.models.ParamsBusquedaNoticia;
 import com.midasconsultores.services.INoticiaService;
-import com.midasconsultores.utilities.Utilities;
-import com.midasconsultores.validators.FuenteNoticia;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -50,14 +46,14 @@ public class NoticiaController {
 	@GetMapping("/noticias/poblar-base-datos")
 	public ResponseEntity<?>  poblarBaseDatos( @ApiParam( name = "fecha", type = "String", value = "formato YYYY-MM-DD",
 								 example = "2020-11-10",  required = true) 
-							     @RequestParam(required = true )  @DateTimeFormat(pattern = "yyyy-MM-dd") Date  fecha ) {
+							     @RequestParam(required = true )  @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate  fecha ) {
 		
 		List<String> errores = new ArrayList<>();		
 		String mensaje = "";		
 		
-		if( !noticiaService.existeCopiaLocalNoticias(fecha ) ) {			
+		if( !noticiaService.existeCopiaLocalNoticias(fecha.atStartOfDay() ) ) {			
 			
-			List<Noticia> noticias = clienteApi.getNoticias(fecha);		
+			List<Noticia> noticias = clienteApi.getNoticias( fecha );		
 			if ( !noticias.isEmpty() ) {
 				
 				errores.addAll( controlarCopiaLocalFuentes() );
@@ -78,6 +74,26 @@ public class NoticiaController {
 				
 	}
 	
+	private Respuesta mejorarIfs( LocalDate  fecha ) {	
+		
+		if( noticiaService.existeCopiaLocalNoticias(fecha.atStartOfDay() ) ) {
+			return new Respuesta( true , "Noticias existentes en base Local", new ArrayList<>() );
+		}
+					
+		List<Noticia> noticias = clienteApi.getNoticias( fecha );		
+		if ( !noticias.isEmpty() ) {
+			List<String> errores = new ArrayList<>();	
+			errores.addAll( controlarCopiaLocalFuentes() );
+			errores.addAll( noticiaService.saveNoticias(noticias) );	
+			String mensaje = "Se registraron las noticias " + ( errores.isEmpty()? "sin errores":"con errores" ); 
+			
+			return new Respuesta( errores.isEmpty(), mensaje, errores );
+					   					
+		}	
+		
+		return new Respuesta( true ,"No se encontraron noticias en el api para el dia ", new ArrayList<>() );		
+	}
+	
 	private List<String> controlarCopiaLocalFuentes() {
 		
 		List<String> errores = new ArrayList<>();
@@ -95,7 +111,7 @@ public class NoticiaController {
 	@GetMapping("/noticias")
 	public ResponseEntity<?> getNoticiasConFiltro( 
 			@ApiParam( name = "fecha", type = "String", value = "formato YYYY-MM-DD",  example="" , required = false) 
-			@RequestParam(required = false )  @DateTimeFormat(pattern = "yyyy-MM-dd") Date  fecha, 
+			@RequestParam(required = false )  @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate  fecha, 
 			@ApiParam( name = "titulo", type = "String", value = "Titulo de la noticia", example="",   required = false)
 			@RequestParam(required = false ) String titulo,
 			@ApiParam( name = "fuente", type = "String", value = "Fuente de la noticia", example="",  required = false)

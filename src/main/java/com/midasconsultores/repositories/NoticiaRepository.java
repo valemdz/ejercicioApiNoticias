@@ -1,6 +1,7 @@
 package com.midasconsultores.repositories;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -14,10 +15,10 @@ import com.midasconsultores.models.Noticia;
 
 public interface NoticiaRepository extends JpaRepository<Noticia,String>{
 		
-	public Long countByFechaPublicacionBetween( Date fechaInicio, Date fechaFin ); 	
+	public Long countByFechaPublicacionBetween( LocalDateTime fechaInicio, LocalDateTime fechaFin ); 	
 	public Paginacion<Noticia> getNoticiasConFiltro( Map<String, Object> condiciones, String ordenarByFuente );
 	
 	@Query( "Select n from Noticia n where n.fechaPublicacion <= :fecha" )
-	public List<Noticia> getNoticiasByFechaPublicacion( @Param("fecha") Date fecha );
+	public List<Noticia> getNoticiasByFechaPublicacion( @Param("fecha") LocalDateTime fecha );
 	
 }

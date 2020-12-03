@@ -1,5 +1,6 @@
 package com.midasconsultores.repositories;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -119,8 +120,8 @@ public class NoticiaRepositoryImpl {
 		}	
 		
 		if( condiciones.containsKey( ParamsBusquedaNoticia.fecha.name() ) ) {
-			Date fecha =  (Date)condiciones.get( ParamsBusquedaNoticia.fecha.name() );
-			Date fechaMasUno = Utilities.fechaMasUnDia(fecha);
+			LocalDate fecha =  (LocalDate)condiciones.get( ParamsBusquedaNoticia.fecha.name() );
+			LocalDate fechaMasUno = Utilities.fechaMasUnDia(fecha);
 			predicados.add(cb.between(noticias.get("fechaPublicacion"), fecha, fechaMasUno));
 		}
 		

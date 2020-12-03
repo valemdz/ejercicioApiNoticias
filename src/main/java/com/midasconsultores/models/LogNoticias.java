@@ -1,8 +1,7 @@
 package com.midasconsultores.models;
 
 import java.io.Serializable;
-import java.util.Date;
-
+import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -23,9 +22,9 @@ public class LogNoticias implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Long id;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "fecha_creacion", nullable = false)
-	Date fechaCreacion;
+		
+	@Column(name = "fecha_creacion", nullable = false, columnDefinition = "TIMESTAMP")
+	LocalDateTime fechaCreacion;
 
 	@Column(name = "estado", nullable = false, length = 10)
 	@Enumerated(value = EnumType.STRING)
@@ -36,7 +35,7 @@ public class LogNoticias implements Serializable {
 	String mensaje;
 
 	public LogNoticias() {
-		fechaCreacion = new Date();
+		fechaCreacion = LocalDateTime.now();
 	}
 
 	public Long getId() {
@@ -47,11 +46,13 @@ public class LogNoticias implements Serializable {
 		this.id = id;
 	}
 
-	public Date getFechaCreacion() {
+	
+
+	public LocalDateTime getFechaCreacion() {
 		return fechaCreacion;
 	}
 
-	public void setFechaCreacion(Date fechaCreacion) {
+	public void setFechaCreacion(LocalDateTime fechaCreacion) {
 		this.fechaCreacion = fechaCreacion;
 	}
 

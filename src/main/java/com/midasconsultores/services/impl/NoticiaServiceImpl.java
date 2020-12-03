@@ -1,5 +1,7 @@
 package com.midasconsultores.services.impl;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -66,7 +68,7 @@ public class NoticiaServiceImpl implements INoticiaService {
 
 
 	@Override
-	public boolean existeCopiaLocalNoticias(Date fecha) {
+	public boolean existeCopiaLocalNoticias( LocalDateTime fecha) {
 		Long cantidadRegistro = noticiaRepository.countByFechaPublicacionBetween(fecha, Utilities.fechaMasUnDia(fecha));
 		return cantidadRegistro != null && cantidadRegistro > 0;
 	}
@@ -134,7 +136,7 @@ public class NoticiaServiceImpl implements INoticiaService {
 
 	@Override
 	@Transactional(readOnly = true) 
-	public List<Noticia> getNoticiasByFechaPublicacion( Date fecha ) {
+	public List<Noticia> getNoticiasByFechaPublicacion( LocalDateTime fecha ) {
 		return noticiaRepository.getNoticiasByFechaPublicacion( fecha );
 	}
 	

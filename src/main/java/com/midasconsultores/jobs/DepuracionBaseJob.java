@@ -1,6 +1,6 @@
 package com.midasconsultores.jobs;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +26,7 @@ public class DepuracionBaseJob {
 	//@Scheduled(cron = "0 0 2 * * *", zone="America/Argentina/Buenos_Aires" )
 	void depurarNoticias() {
 		
-		Date fechaDepuracion = Utilities.fechaAddDia( new Date(), -5 );
+		LocalDateTime fechaDepuracion = Utilities.fechaAddDia( LocalDateTime.now(), -5 );
 							
 		Long cantidadRegistros = 0L;
 		List<Noticia> noticias = noticiaService.getNoticiasByFechaPublicacion( fechaDepuracion );			

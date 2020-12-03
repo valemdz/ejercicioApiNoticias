@@ -1,6 +1,7 @@
 package com.midasconsultores.services;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -12,8 +13,8 @@ public interface INoticiaService {
 	
 	public List<String> saveNoticias( List<Noticia> noticias );	
 	public Paginacion<Noticia> getNoticiasConFiltro( Map<String, Object> condiciones,  String ordenarByFuente );	
-	public boolean existeCopiaLocalNoticias( Date fecha );
-	public List<Noticia> getNoticiasByFechaPublicacion( Date fecha );
+	public boolean existeCopiaLocalNoticias( LocalDateTime fecha );
+	public List<Noticia> getNoticiasByFechaPublicacion( LocalDateTime fecha );
 	public void eliminarNoticia( Noticia noti );
 	
 	

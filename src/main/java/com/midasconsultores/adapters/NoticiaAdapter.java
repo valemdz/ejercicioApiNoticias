@@ -17,7 +17,7 @@ public class NoticiaAdapter {
 		 noticia.setUrlNoticia( article.getSourceUrl() );
 		 noticia.setUrlimagen( article.getImageUrl()  );		 
 		 noticia.setFuente( providerToFuente( article.getProvider() )  );		 
-		 noticia.setFechaPublicacion( Utilities.stringToDate( article.getPublishedAt(), Utilities.FORMATO_ISO ) );
+		 noticia.setFechaPublicacion( Utilities.stringToLocalDateTime( article.getPublishedAt(), Utilities.FORMATO_ISO ) );
 		 
 		 return noticia; 
 	 }

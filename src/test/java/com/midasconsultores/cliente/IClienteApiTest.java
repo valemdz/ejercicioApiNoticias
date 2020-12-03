@@ -22,16 +22,7 @@ class IClienteApiTest {
 	@Test
 	void test() {
 		
-		System.out.println("Entro");
-		
-		Date fecha = Utilities.stringToDate("04/11/2020", Utilities.FORMAT_DATE);
-		
-		String fechaFormatoApi = Utilities.dateToString( fecha, Utilities.FORMATO_API );
-		
-		System.out.println("fechaFormatoApi: " +fechaFormatoApi );
-		
-		
-		System.out.println("Entro");
+	
 		
 	}
 

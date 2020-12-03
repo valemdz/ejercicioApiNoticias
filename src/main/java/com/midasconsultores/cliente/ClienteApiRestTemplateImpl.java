@@ -1,5 +1,6 @@
 package com.midasconsultores.cliente;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -43,11 +44,11 @@ public class ClienteApiRestTemplateImpl implements IClienteApi {
     }
  
     
-    public UriComponentsBuilder crearCriterioBusquedaArticles( Date fecha, int pagina  ) {
+    public UriComponentsBuilder crearCriterioBusquedaArticles( LocalDate fecha, int pagina  ) {
     	
     	final String URL_NOTICIAS = urlBase.concat("/api/v1/articles");
     	
-    	String fechaFormatoApi = Utilities.dateToString( fecha, Utilities.FORMATO_API );
+    	String fechaFormatoApi = Utilities.localDateToString( fecha, FORMATO_API );
     	
     	UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(URL_NOTICIAS)
 		        .queryParam("apiKey", apiKey)
@@ -88,7 +89,7 @@ public class ClienteApiRestTemplateImpl implements IClienteApi {
 	}
 
 	@Override
-	public List<Noticia> getNoticias( Date fecha  ) {
+	public List<Noticia> getNoticias( LocalDate fecha  ) {
 		
 		List<Noticia> noticias = new ArrayList<>();		
 		
@@ -103,7 +104,7 @@ public class ClienteApiRestTemplateImpl implements IClienteApi {
 		return noticias;
 	}
 	
-	public PaginacionArticle getPaginaArticles( Date fecha, int pagina ) {    	
+	public PaginacionArticle getPaginaArticles( LocalDate fecha, int pagina ) {    	
 		
 		HttpHeaders headers = new HttpHeaders();
 		headers.set("Accept", MediaType.APPLICATION_JSON_VALUE);
